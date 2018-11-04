@@ -1,4 +1,4 @@
-//package ua.sumdu.j2se.plachkovskyy.tasks;
+package ua.sumdu.j2se.plachkovskyy.tasks;
 
 /**
  * Class ArrayTaskList for the list of tasks
