@@ -56,7 +56,7 @@ public class ArrayTaskList {
                 break;
             }
         }
-        // Optimization of the size of array
+        // Optimization of the size of array. Important: minimum size is 10
         if (((realSize / listLength) < 0.5) &&
             ((listLength * 0.75) > 10)) {
             listLength = (int) (listLength * 0.75);
