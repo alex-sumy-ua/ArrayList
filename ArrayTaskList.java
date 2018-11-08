@@ -5,35 +5,33 @@ package ua.sumdu.j2se.plachkovskyy.tasks;
 */
 public class ArrayTaskList {
 
-    private int     listLength  = 10;                   // array start length
-    private Task[]  taskList    = new Task[listLength]; // list of tasks
-    int             i;                                  // array index
-    
+    private Task[]  taskList;           // list of tasks
+    private int     listLength  = 10;   // array start length
+    private int     realSize    = 0;    // array real size
+
     /**
     *   Constructor of empty list
     */
-    public ArrayTaskList() {
-        for (i = 0; i < listLength; i++) {
-            taskList[i] = null;
-        }
+    public ArrayTaskList () {
+        taskList    =   new Task[10];
+        listLength  =   taskList.length;
+        realSize    =   size();
     }
-
+    
     /**
     * Adding new element (task) into list
     */
     public void add(Task task) {
-        for (i = 0; i < taskList.length; i++) {
-            if (taskList[i] == null) {
-                taskList[i] =   task;
-                break;
+        if (realSize < listLength) {
+            taskList[realSize]  =   task;
+            realSize            =   size();
+            // Checking/correction array size
+            if ((realSize / listLength) > 0.75) {
+                listLength = (int) (listLength * 1.3);
+                Task[] tempList = new Task[listLength];
+                System.arraycopy(taskList, 0, tempList, 0, realSize);
+                taskList = tempList;
             }
-        }
-        // Checking/correction array size
-        if ((size() / taskList.length) > 0.75) {
-            listLength   =   (int) (taskList.length * 1.3);
-            Task[]  tempList    = new Task[listLength];
-            System.arraycopy(taskList, 0, tempList, 0, taskList.length);
-            taskList = tempList;
         }
     }
     
@@ -44,21 +42,27 @@ public class ArrayTaskList {
     */
     public boolean remove(Task task) {
         boolean done = false;
-        for (i = 0; i < listLength; i++) {
+        if (task == null) {
+            return done;
+        }
+        for (int i = 0; i < realSize; i++) {
             if (taskList[i].equals(task)) {
-                taskList[i] = null;
-                done = true;
-                // Optimization of the size of array
-                listLength--;
-                if ((size() / listLength) < 0.5) {
-                    listLength   =   (int) (listLength * 0.75);
-                }
-                Task[]  tempList    = new Task[listLength];
+                Task[]  tempList = new Task[listLength];
                 System.arraycopy(taskList, 0, tempList, 0, i);
-                System.arraycopy(taskList, ++i, tempList, i-1, listLength - i);
+                System.arraycopy(taskList, i+1, tempList, i, listLength-i-1);
                 taskList = tempList;
+                realSize = size();
+                done = true;
                 break;
             }
+        }
+        // Optimization of the size of array
+        if (((realSize / listLength) < 0.5) &&
+            ((listLength * 0.75) > 10)) {
+            listLength = (int) (listLength * 0.75);
+            Task[]  tempList = new Task[listLength];
+            System.arraycopy(taskList, 0, tempList, 0, realSize);
+            taskList = tempList;
         }
         return done;
     }
@@ -68,7 +72,7 @@ public class ArrayTaskList {
     */
     public int size() {
         int realSize = 0;
-        for (i = 0; i < listLength; i++) {
+        for (int i = 0; i < listLength; i++) {
             if (taskList[i] != null) {
                 realSize += 1;
             }
@@ -80,36 +84,24 @@ public class ArrayTaskList {
     * Returns Task by index
     */
     public Task getTask(int index) {
-        if (index < listLength) {
+        if ((index >= 0) && (index < listLength)) {
             return taskList[index];
         } else {
             return null;
         }
     }
-
+    
     /**
     * Returns tasks list, which will be planned at least once
     * after "from" and not later than "to"
     */
-    public Task[] incoming(int from, int to) {
-        Task[] incomingList    =   new Task[listLength];
-        for (i = 0; i < listLength; i++) {
-            if ((taskList[i].nextTimeAfter(from) > from) &&
-                (taskList[i].nextTimeAfter(from) <= to)) {
-                    incomingList[i] = taskList[i];
-                }
+    public ArrayTaskList incoming(int from, int to) {
+        ArrayTaskList arrayTaskList = new ArrayTaskList();
+        for (int i = 0; i < realSize; i++) {
+            if ((taskList[i].nextTimeAfter(from) >= from) &&
+                (taskList[i].nextTimeAfter(from) <= to))
+                arrayTaskList.add(taskList[i]);
         }
-        // Optimization of the size of incoming array
-        int realSize    =   size();         // real size of taskList
-        int index       =   0;              // index for tempList
-        Task[] tempList    =   new Task[realSize];
-        for (i = 0; i < listLength; i++) {
-            if (taskList[i] != null) {
-                tempList[index] =   taskList[i];
-                index++;
-            }
-        }
-        incomingList = tempList;
-        return incomingList;
+        return arrayTaskList;
     }
 }

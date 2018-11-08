@@ -1,8 +1,8 @@
 package ua.sumdu.j2se.plachkovskyy.tasks;
 
 /**
- * Class Task for some real task
- */
+* Class Task for some real task
+*/
 public class Task {
 
     private String  title;      // name of task
@@ -14,59 +14,59 @@ public class Task {
     private boolean repeated;   // the task is repeated
 
     /**
-     * Constructor1: inactive Task with parameters
-     */
-    public  Task(String title, int time) {
+	* Constructor1: inactive Task with parameters
+	*/
+	public  Task(String title, int time) {
         this.title      =   title;
-        this.time       =   time;
+		this.time       =   time;
 //        this.active     =   false;  // not necessary initialization
 //        this.repeated   =   false;  // not necessary initialization
     }
-
-    /**
-     * Constructor2 of the Task with parameters
-     */
+    
+	/**
+	* Constructor2 of the Task with parameters
+	*/
     public  Task(String title, int start, int end, int interval) {
         this.title      =   title;
-        this.start      =   start;
+		this.start      =   start;
         this.end        =   end;
-        this.interval   =   interval;
+        this.interval   =   interval;   
 //        this.active     =   false;  // not necessary initialization
         this.repeated   =   true;
-    }
+     }
 
     /**
-     * get title method
-     */
+    * get title method
+    */
     public String getTitle() {
         return title;
     }
-
+    
     /**
-     * set title method
-     */
+    * set title method
+    */
     public void setTitle(String title) {
         this.title = title;
     }
-
+    
     /**
-     * get active method
-     */
+    * get active method
+    */
     public boolean isActive() {
         return active;
-
+    
     }
-
+    
     /**
-     * set active method
-     */
+    * set active method
+    */
     public void setActive(boolean active) {
         this.active = active;
     }
-
+    
     /**
-     * if repeated, return start
-     */
+    * if repeated, return start
+    */
     public int getTime() {
         if (!repeated) {
             return time;
@@ -74,18 +74,18 @@ public class Task {
             return start;
         }
     }
-
+    
     /**
-     * if repeated, make it nonrepeated
-     */
+    * if repeated, make it nonrepeated
+    */
     public void setTime(int time) {
         this.time       =   time;
         repeated        =   false;
     }
 
     /**
-     * if nonrepeated, return time
-     */
+    * if nonrepeated, return time
+    */
     public int getStartTime() {
         if (repeated) {
             return start;
@@ -93,10 +93,10 @@ public class Task {
             return time;
         }
     }
-
+    
     /**
-     * if nonrepeated, return time
-     */
+    * if nonrepeated, return time
+    */
     public int getEndTime() {
         if (repeated) {
             return end;
@@ -104,10 +104,10 @@ public class Task {
             return time;
         }
     }
-
-    /**
-     * if nonrepeated, return 0
-     */
+    
+    /**    
+    * if nonrepeated, return 0
+    */    
     public int getRepeatInterval() {
         if (repeated) {
             return interval;
@@ -115,10 +115,10 @@ public class Task {
             return 0;
         }
     }
-
-    /**
-     * if nonrepeated, make it repeated
-     */
+    
+    /**    
+    * if nonrepeated, make it repeated
+    */    
     public void setTime(int start, int end, int interval) {
         if (!repeated) {
             repeated = true;
@@ -129,15 +129,15 @@ public class Task {
     }
 
     /**
-     * if it is repeated
-     */
+    * if it is repeated
+    */
     public boolean isRepeated() {
         return repeated;
     }
-
+    
     /**
-     * if possible, return next time or start, or return -1, if impossible
-     */
+    * if possible, return next time or start, or return -1, if impossible
+    */
     public int nextTimeAfter(int current) {
         if (!active) {
             return -1;
