@@ -23,8 +23,7 @@ public class ArrayTaskList {
     */
     public void add(Task task) {
         if (realSize < listLength) {
-            taskList[realSize]  =   task;
-            realSize            =   size();
+            taskList[realSize++]  =   task;     // realSize increased!!!
             // Checking/correction array size
             if ((realSize / listLength) > 0.75) {
                 listLength = (int) (listLength * 1.3);
@@ -51,7 +50,7 @@ public class ArrayTaskList {
                 System.arraycopy(taskList, 0, tempList, 0, i);
                 System.arraycopy(taskList, i+1, tempList, i, listLength-i-1);
                 taskList = tempList;
-                realSize = size();
+                realSize--;                     // realSize decreased!!!
                 done = true;
                 break;
             }
@@ -71,12 +70,6 @@ public class ArrayTaskList {
     * Returns tasks total
     */
     public int size() {
-        int realSize = 0;
-        for (int i = 0; i < listLength; i++) {
-            if (taskList[i] != null) {
-                realSize += 1;
-            }
-        }
         return realSize;
     }
     
