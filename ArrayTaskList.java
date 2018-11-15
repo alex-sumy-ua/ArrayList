@@ -1,27 +1,33 @@
 package ua.sumdu.j2se.plachkovskyy.tasks;
 
+import ua.sumdu.j2se.plachkovskyy.tasks.exceptions.*;
+
 /**
-* Class ArrayTaskList for the list of tasks
+* Class ArrayTaskList for the list of tasks.
 */
-public class ArrayTaskList {
+public class ArrayTaskList extends TaskList {
 
     private Task[]  taskList;           // list of tasks
     private int     listLength  = 10;   // array start length
     private int     realSize    = 0;    // array real size
 
     /**
-    *   Constructor of empty list
+    *   Constructor of empty list.
     */
     public ArrayTaskList () {
-        taskList    =   new Task[10];
+        taskList    =   new Task[listLength];
         listLength  =   taskList.length;
         realSize    =   size();
     }
     
     /**
-    * Adding new element (task) into list
+    * Adding new element (task) into list.
     */
-    public void add(Task task) {
+    @Override
+    public void add(Task task) throws MyException {
+        if (task == null) {
+            throw new MyException("Cannot add null into the list!");
+        }
         if (realSize < listLength) {
             taskList[realSize++]  =   task;     // realSize increased!!!
             // Checking/correction array size
@@ -39,6 +45,7 @@ public class ArrayTaskList {
     * Returns true if element was found and removed,
     * returns false if element was not found.
     */
+    @Override
     public boolean remove(Task task) {
         boolean done = false;
         if (task == null) {
@@ -67,15 +74,17 @@ public class ArrayTaskList {
     }
     
     /**
-    * Returns tasks total
+    * Returns tasks total.
     */
+    @Override
     public int size() {
         return realSize;
     }
     
     /**
-    * Returns Task by index
+    * Returns Task by index.
     */
+    @Override
     public Task getTask(int index) {
         if ((index >= 0) && (index < listLength)) {
             return taskList[index];
@@ -86,9 +95,16 @@ public class ArrayTaskList {
     
     /**
     * Returns tasks list, which will be planned at least once
-    * after "from" and not later than "to"
+    * after "from" and not later than "to".
     */
-    public ArrayTaskList incoming(int from, int to) {
+    @Override
+    public ArrayTaskList incoming(int from, int to) throws MyException {
+        if (from < 0) {
+            throw new MyException("From-time cannot be less then zero!");
+        }
+        if (to <= from) {
+            throw new MyException("To-time must be more then from-time!");
+        }
         ArrayTaskList arrayTaskList = new ArrayTaskList();
         for (int i = 0; i < realSize; i++) {
             if ((taskList[i].nextTimeAfter(from) >= from) &&

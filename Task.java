@@ -26,10 +26,20 @@ public class Task {
 	/**
 	* Constructor2 of the Task with parameters
 	*/
-    public  Task(String title, int start, int end, int interval) {
+    public  Task(String title, int start, int end, int interval)
+            throws Exception {
         this.title      =   title;
+        if (start < 0) {
+            throw new Exception("Start-time cannot be less then zero!");
+        }
 		this.start      =   start;
+        if (end < start) {
+            throw new Exception("End-time cannot be less then start-time!");
+        }
         this.end        =   end;
+        if (interval <= 0) {
+            throw new Exception("Interval must be more then zero!");
+        }
         this.interval   =   interval;   
 //        this.active     =   false;  // not necessary initialization
         this.repeated   =   true;
@@ -119,13 +129,23 @@ public class Task {
     /**    
     * if nonrepeated, make it repeated
     */    
-    public void setTime(int start, int end, int interval) {
+    public void setTime(int start, int end, int interval) throws Exception {
+        if (start < 0) {
+            throw new Exception("Start-time cannot be less then zero!");
+        }
+		this.start      =   start;
+        if (end < start) {
+            throw new Exception("End-time cannot be less then start-time!");
+        }
+        this.end        =   end;
+        if (interval <= 0) {
+            throw new Exception("Interval must be more then zero!");
+        }
+        this.interval   =   interval;   
+
         if (!repeated) {
             repeated = true;
         }
-        this.start      =   start;
-        this.end        =   end;
-        this.interval   =   interval;
     }
 
     /**
