@@ -97,7 +97,7 @@ public class ArrayTaskList extends TaskList {
     * Returns tasks list, which will be planned at least once
     * after "from" and not later than "to".
     */
-    @Override
+/*    @Override
     public ArrayTaskList incoming(int from, int to) throws MyException {
         if (from < 0) {
             throw new MyException("From-time cannot be less then zero!");
@@ -113,4 +113,15 @@ public class ArrayTaskList extends TaskList {
         }
         return arrayTaskList;
     }
+*/
+    
+    /**
+    * Create TaskList of both types.
+    */
+    @Override
+    public TaskList createList() {
+        TaskList taskList = new ArrayTaskList();
+        return taskList;
+    }
+    
 }

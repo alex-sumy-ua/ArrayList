@@ -38,19 +38,25 @@ abstract class TaskList {
     * Returns tasks list, which will be planned at least once
     * after "from" and not later than "to".
     */
-    public abstract TaskList incoming(int from, int to) throws MyException;/* {
+    public TaskList incoming(int from, int to) throws MyException {
         if (from < 0) {
             throw new MyException("From-time cannot be less then zero!");
         }
         if (to <= from) {
             throw new MyException("To-time must be more then from-time!");
         }
-        TaskList taskList = new TaskList();
+        TaskList taskList = createList();
         for (int i = 0; i < size(); i++) {
             if ((getTask(i).nextTimeAfter(from) >= from) &&
                 (getTask(i).nextTimeAfter(from) <= to))
                 taskList.add(getTask(i));
         }
         return taskList;
-    }*/
+    }
+    
+    /**
+    * Create TaskList of both types.
+    */
+    public abstract TaskList createList();
+    
 }
