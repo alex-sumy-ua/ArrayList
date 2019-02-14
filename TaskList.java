@@ -1,17 +1,13 @@
 package ua.sumdu.j2se.plachkovskyy.tasks;
 
 import ua.sumdu.j2se.plachkovskyy.tasks.exceptions.*;
+import java.util.Iterator;
 
 /**
 * Class TaskList for the list of tasks.
 */
-abstract class TaskList {
+abstract class TaskList implements Iterable<Task>, Cloneable {
     
-    /**
-    *   Constructor of empty list.
-    */
-    public TaskList () {}
-
     /**
     * Adding new element (task) into list.
     */
@@ -39,18 +35,15 @@ abstract class TaskList {
     * after "from" and not later than "to".
     */
     public TaskList incoming(int from, int to) throws MyException {
-        if (from < 0) {
+        if (from < 0)
             throw new MyException("From-time cannot be less then zero!");
-        }
-        if (to <= from) {
+        if (to <= from)
             throw new MyException("To-time must be more then from-time!");
-        }
         TaskList taskList = createList();
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < size(); i++)
             if ((getTask(i).nextTimeAfter(from) >= from) &&
                 (getTask(i).nextTimeAfter(from) <= to))
                 taskList.add(getTask(i));
-        }
         return taskList;
     }
     
@@ -59,4 +52,29 @@ abstract class TaskList {
     */
     public abstract TaskList createList();
     
+    /**
+     * Redefining of the method iterator().
+     */
+    public abstract Iterator<Task> iterator();
+    
+    /**
+     * Redefining of the method toString() of the class Object.
+     * The method returns the name of the class of the object, length
+     * and enumeration elements.
+     */
+    @Override
+    public abstract String toString();
+
+    /*
+    * Redefining of method equals().
+    */
+    @Override
+    public abstract boolean equals(Object otherObject);
+
+    /*
+    * Redefining of method hashCode().
+    */
+    @Override
+    public abstract int hashCode();
+
 }
