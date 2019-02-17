@@ -103,29 +103,26 @@ public class ArrayTaskList extends TaskList {
     public Iterator<Task> iterator() {
     
         Iterator<Task> it = new Iterator<Task>() {
-            private int currentIndex = 0;
+            private int currentIndex = -1;
             Task task;
 
             @Override
             public boolean hasNext() {
-                return ((taskList[currentIndex] != null) &&
-                        (currentIndex < realSize));
+                return currentIndex != realSize - 1;
             }
 
             @Override
             public Task next() {
-                return getTask(currentIndex++);
+                return getTask(++currentIndex);
             }
 
             @Override
             public void remove() {
-                if (currentIndex == 0)
+                if (currentIndex == -1)
                     throw new IllegalStateException("Next hasn't been called yet!");
-                ArrayTaskList.this.remove(task);
-                currentIndex--;
+                ArrayTaskList.this.remove(ArrayTaskList.this.taskList[currentIndex--]);
             }
         };
-
         return it;
     }    
 
