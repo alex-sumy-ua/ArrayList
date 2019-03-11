@@ -1,6 +1,7 @@
 package ua.sumdu.j2se.plachkovskyy.tasks;
 
 import ua.sumdu.j2se.plachkovskyy.tasks.exceptions.*;
+import java.util.Date;
 
 /**
 * Class Task for some real task.
@@ -8,9 +9,9 @@ import ua.sumdu.j2se.plachkovskyy.tasks.exceptions.*;
 public class Task implements Cloneable {
 
     private String  title;      // name of task
-    private int     time;       // time of task without of repeat
-    private int     start;      // start-time of task with repeat
-    private int     end;        // end-time of task with repeat
+    private Date    time;       // time of task without of repeat
+    private Date    start;      // start-time of task with repeat
+    private Date    end;        // end-time of task with repeat
     private int     interval;   // interval-time of task with repeat
     private boolean active;     // the task is active right now
     private boolean repeated;   // the task is repeated
@@ -18,7 +19,7 @@ public class Task implements Cloneable {
     /**
 	* Constructor1: inactive Task with parameters.
 	*/
-	public  Task(String title, int time) {
+	public  Task(String title, Date time) {
         this.title      =   title;
 		this.time       =   time;
 //        this.active     =   false;  // not necessary initialization
@@ -28,17 +29,17 @@ public class Task implements Cloneable {
 	/**
 	* Constructor2 of the Task with parameters.
 	*/
-    public  Task(String title, int start, int end, int interval)
+    public  Task(String title, Date start, Date end, int interval)
             throws Exception {
-        this.title      =   title;
-        if (start < 0)
-            throw new Exception("Start-time cannot be less then zero!");
-		this.start      =   start;
-        if (end < start)
-            throw new Exception("End-time cannot be less then start-time!");
-        this.end        =   end;
+        if (start == null || end == null)
+            throw new Exception("Start and End cannot be null!");
         if (interval <= 0)
             throw new Exception("Interval must be more then zero!");
+        if (end.before(start))
+            throw new Exception("End-time cannot be less then start-time!");
+        this.title      =   title;
+		this.start      =   start;
+        this.end        =   end;
         this.interval   =   interval;   
 //        this.active     =   false;  // not necessary initialization
         this.repeated   =   true;
@@ -78,7 +79,7 @@ public class Task implements Cloneable {
     /**
     * If repeated, return start-time.
     */
-    public int getTime() {
+    public Date getTime() {
         if (!repeated) return time;
         else return start;
     }
@@ -86,7 +87,7 @@ public class Task implements Cloneable {
     /**
     * If repeated, make it nonrepeated.
     */
-    public void setTime(int time) {
+    public void setTime(Date time) {
         repeated        =   false;
         this.time       =   time;
     }
@@ -94,7 +95,7 @@ public class Task implements Cloneable {
     /**
     * If nonrepeated, return time.
     */
-    public int getStartTime() {
+    public Date getStartTime() {
         if (repeated) return start;
         else return time;
     }
@@ -102,7 +103,7 @@ public class Task implements Cloneable {
     /**
     * If nonrepeated, return time.
     */
-    public int getEndTime() {
+    public Date getEndTime() {
         if (repeated) return end;
         else return time;
     }
@@ -118,15 +119,15 @@ public class Task implements Cloneable {
     /**    
     * If nonrepeated, make it repeated.
     */    
-    public void setTime(int start, int end, int interval) throws Exception {
-        if (start < 0)
-            throw new Exception("Start-time cannot be less then zero!");
-		this.start      =   start;
-        if (end < start)
-            throw new Exception("End-time cannot be less then start-time!");
-        this.end        =   end;
+    public void setTime(Date start, Date end, int interval) throws Exception {
+        if (start == null || end == null)
+            throw new Exception("Start and End cannot be null!");
         if (interval <= 0)
             throw new Exception("Interval must be more then zero!");
+        if (end.before(start))
+            throw new Exception("End-time cannot be less then start-time!");
+		this.start      =   start;
+        this.end        =   end;
         this.interval   =   interval;   
         if (!repeated) repeated = true;
     }
@@ -141,17 +142,21 @@ public class Task implements Cloneable {
     /**
     * If possible, return next time or start, or return -1, if impossible.
     */
-    public int nextTimeAfter(int current) {
-        if (!active) return -1;
-        else if (!repeated) {
-            if (current >= time) return -1;
-            else return time;
-        } else {
-            if (current < start) return start;
-            else if (current >= end) return -1;
-            else if ((((end - start) / interval) * interval) <= current) return -1;
-            else return start + (((current - start) / interval) + 1) * interval;
+    public Date nextTimeAfter(Date current) {
+        if (!active) return null;
+        if (!repeated) {
+            if (current.after(time) || current.equals(time)) return null;
+            return new Date(time.getTime());
         }
+        if (current.after(end)) return null;
+        if (start.after(current)) return new Date(start.getTime());
+        Date next = new Date(start.getTime());
+        do {
+            next.setTime(next.getTime() + interval*1000);
+        } while (next.before(current)); 
+        if (current.equals(next)) next.setTime(next.getTime() + interval*1000); 
+        if (next.after(end)) return null;
+        return next;
     }
     
     /*
