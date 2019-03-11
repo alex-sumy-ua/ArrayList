@@ -34,7 +34,7 @@ abstract class TaskList implements Iterable<Task>, Cloneable {
     * Returns tasks list, which will be planned at least once
     * after "from" and not later than "to".
     */
-    public TaskList incoming(int from, int to) throws MyException {
+/*    public TaskList incoming(int from, int to) throws MyException {
         if (from < 0)
             throw new MyException("From-time cannot be less then zero!");
         if (to <= from)
@@ -46,7 +46,7 @@ abstract class TaskList implements Iterable<Task>, Cloneable {
                 taskList.add(getTask(i));
         return taskList;
     }
-    
+*/    
     /**
     * Create TaskList of both types.
     */
