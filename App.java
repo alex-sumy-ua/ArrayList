@@ -10,10 +10,10 @@ public class App {
         Task task3 = new Task("Sleeping", new Date(119, 05, 12));
         Task task4 = task3.clone();
 
-        System.out.println("task3.isActive() " + task3.isActive());
-        task4.setActive(true);
-        System.out.println("task4.isActive() " + task4.isActive());
-        System.out.println("task3.isActive() " + task3.isActive());
+        System.out.println("task3.getTime() " + task3.getTime());
+        task4.setTime(new Date());
+        System.out.println("task4.getTime() " + task4.getTime());
+        System.out.println("task3.getTime() " + task3.getTime());
 
         ltl.add(task1);
         atl.add(task1);
