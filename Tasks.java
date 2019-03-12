@@ -12,22 +12,18 @@ public class Tasks {
      * Returns tasks list, which will be planned at least once
      * after "from" and not later than "to".
      */
-    public static Iterable<Task> incoming(Iterable<Task> tasks, Date start, Date end) {
-        return new Iterable<Task>() {
-            @Override
-            public Iterator<Task> iterator() {
-                Iterator<Task> iterator = tasks.iterator();
-                while (iterator.hasNext()){
-                    Task task = iterator.next();
-                    if (task.nextTimeAfter(start) == null ||
-                        task.nextTimeAfter(start).before(start) ||
-                        task.nextTimeAfter(start).after(end))   { iterator.remove();}
-                }
-                return iterator;
-            }
-        };
+    public static Iterable<Task> incoming(Iterable<Task> tasks, Date start, Date end) throws MyException {
+        ArrayTaskList collection = new ArrayTaskList();
+        for (Task task: tasks) {
+            if (task.isActive() &&
+                task.nextTimeAfter(start) != null &&
+                task.nextTimeAfter(start).after(start) &&
+                task.nextTimeAfter(start).compareTo(end) <= 0)
+                { collection.add(task); }
+        }
+        return collection;
     }
-
+    
     public static SortedMap<Date, Set<Task>> calendar(Iterable<Task> tasks, Date start, Date end) {
         SortedMap<Date, Set<Task>> sortedMap = new TreeMap<Date, Set<Task>>();
         for (Task task: tasks) {                                // iterator in tasks by task
