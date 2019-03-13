@@ -165,16 +165,23 @@ public class Task implements Cloneable {
     @Override
     public boolean equals(Object otherObject) {
         if(this == otherObject) return true;
-        if(otherObject == null ||
-           this.getClass() != otherObject.getClass()) return false;
+        if(otherObject == null || this.getClass() != otherObject.getClass()) return false;
         Task other = (Task) otherObject;
-        return this.title.equals(other.title) &&
- //              this.time     == other.time &&
- //              this.start    == other.start &&
- //              this.end      == other.end &&
- //              this.interval == other.interval &&
-               this.active   == other.active;// &&
-//               this.repeated == other.repeated;
+        if (!isRepeated()) {
+            return  !other.isRepeated() &&
+                    this.hashCode() == other.hashCode() &&
+                    this.title.equalsIgnoreCase(other.title) &&
+                    Boolean.compare(this.isActive(), other.isActive()) == 0 &&
+                    this.time.compareTo(other.time) == 0;
+        } else {
+            return  other.isRepeated() &&
+                    this.hashCode() == other.hashCode() &&
+                    this.title.equals(other.title) &&
+                    Boolean.compare(this.isActive(), other.isActive()) == 0 &&
+                    this.start.compareTo(other.start) == 0 &&
+                    this.end.compareTo(other.end) == 0 &&
+                    this.interval == other.interval;
+        }
     }
 
     /*
@@ -184,13 +191,16 @@ public class Task implements Cloneable {
     public int hashCode() {
         final int prime = 1113;
         int result = 1;
+        result = prime * result + (this.isRepeated() ? 0 : prime);
         result = prime * result + ((this.title == null) ? 0 : this.title.hashCode());
-//        result = prime * result + this.time;
-//        result = prime * result + this.start;
-//        result = prime * result + this.end;
-//        result = prime * result + this.interval;
-        result = prime * result + (this.active ? 0 : prime);
-//        result = prime * result + (this.repeated ? 0 : prime);
+        result = prime * result + (this.isActive() ? 0 : prime);
+        if (!isRepeated()) {
+            result = prime * result + this.time.hashCode();
+        } else {
+            result = prime * result + this.start.hashCode();
+            result = prime * result + this.end.hashCode();
+            result = prime * result + this.interval;
+        }
         return result;
     }
 

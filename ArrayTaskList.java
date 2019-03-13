@@ -150,10 +150,8 @@ public class ArrayTaskList extends TaskList {
         if(getClass() != otherObject.getClass()) return false;
         ArrayTaskList aTL = (ArrayTaskList)otherObject;
         if (realSize != aTL.size()) return false;
-        for (int i = 0; i < realSize; i++) {
-            if (! this.getTask(i).equals(aTL.getTask(i)))
-                return false;
-        }
+        for (int i = 0; i < realSize; i++)
+            if (! this.getTask(i).equals(aTL.getTask(i))) return false;
         return true;
     }
 
