@@ -1,6 +1,6 @@
-package ua.sumdu.j2se.plachkovskyy.tasks;
+//package ua.sumdu.j2se.plachkovskyy.tasks;
 
-import ua.sumdu.j2se.plachkovskyy.tasks.exceptions.*;
+import /*ua.sumdu.j2se.plachkovskyy.tasks.*/exceptions.*;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

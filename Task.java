@@ -1,12 +1,13 @@
-package ua.sumdu.j2se.plachkovskyy.tasks;
+//package ua.sumdu.j2se.plachkovskyy.tasks;
 
-import ua.sumdu.j2se.plachkovskyy.tasks.exceptions.*;
+import /*ua.sumdu.j2se.plachkovskyy.tasks.*/exceptions.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
-* Class Task for some real task.
-*/
-public class Task implements Cloneable {
+ * Class Task for some real task.
+ */
+public class Task implements Cloneable, Serializable {
 
     private String  title;      // name of task
     private Date    time;       // time of task without of repeat
@@ -17,18 +18,18 @@ public class Task implements Cloneable {
     private boolean repeated;   // the task is repeated
 
     /**
-	* Constructor1: inactive Task with parameters.
-	*/
-	public  Task(String title, Date time) {
+     * Constructor1: inactive Task with parameters.
+     */
+    public  Task(String title, Date time) {
         this.title      =   title;
-		this.time       =   time;
+        this.time       =   time;
 //        this.active     =   false;  // not necessary initialization
 //        this.repeated   =   false;  // not necessary initialization
     }
-    
-	/**
-	* Constructor2 of the Task with parameters.
-	*/
+
+    /**
+     * Constructor2 of the Task with parameters.
+     */
     public  Task(String title, Date start, Date end, int interval)
             throws MyException {
         if (start == null || end == null)
@@ -38,87 +39,87 @@ public class Task implements Cloneable {
         if (end.before(start))
             throw new MyException("End-time cannot be less then start-time!");
         this.title      =   title;
-		this.start      =   start;
+        this.start      =   start;
         this.end        =   end;
-        this.interval   =   interval;   
+        this.interval   =   interval;
 //        this.active     =   false;  // not necessary initialization
         this.repeated   =   true;
-     }
+    }
 
     /**
-    * Get title method.
-    */
+     * Get title method.
+     */
     public String getTitle() {
         return title;
     }
-    
+
     /**
-    * Set title method.
-    */
+     * Set title method.
+     */
     public void setTitle(String title) throws MyException {
         if ((title != null) && (!title.equals("")))
             this.title = title;
         else throw new MyException("Title mustn't be empty!");
     }
-    
+
     /**
-    * Get active method.
-    */
+     * Get active method.
+     */
     public boolean isActive() {
         return active;
-    
+
     }
-    
+
     /**
-    * Set active method.
-    */
+     * Set active method.
+     */
     public void setActive(boolean active) {
         this.active = active;
     }
-    
+
     /**
-    * If repeated, return start-time.
-    */
+     * If repeated, return start-time.
+     */
     public Date getTime() {
         if (!repeated) return time;
         else return start;
     }
-    
+
     /**
-    * If repeated, make it nonrepeated.
-    */
+     * If repeated, make it nonrepeated.
+     */
     public void setTime(Date time) {
         repeated        =   false;
         this.time       =   time;
     }
 
     /**
-    * If nonrepeated, return time.
-    */
+     * If nonrepeated, return time.
+     */
     public Date getStartTime() {
         if (repeated) return start;
         else return time;
     }
-    
+
     /**
-    * If nonrepeated, return time.
-    */
+     * If nonrepeated, return time.
+     */
     public Date getEndTime() {
         if (repeated) return end;
         else return time;
     }
-    
-    /**    
-    * If nonrepeated, return 0.
-    */    
+
+    /**
+     * If nonrepeated, return 0.
+     */
     public int getRepeatInterval() {
         if (repeated) return interval;
         else return 0;
     }
-    
-    /**    
-    * If nonrepeated, make it repeated.
-    */    
+
+    /**
+     * If nonrepeated, make it repeated.
+     */
     public void setTime(Date start, Date end, int interval) throws Exception {
         if (start == null || end == null)
             throw new Exception("Start and End cannot be null!");
@@ -126,22 +127,22 @@ public class Task implements Cloneable {
             throw new Exception("Interval must be more then zero!");
         if (end.before(start))
             throw new Exception("End-time cannot be less then start-time!");
-		this.start      =   start;
+        this.start      =   start;
         this.end        =   end;
-        this.interval   =   interval;   
+        this.interval   =   interval;
         if (!repeated) repeated = true;
     }
 
     /**
-    * If it is repeated.
-    */
+     * If it is repeated.
+     */
     public boolean isRepeated() {
         return repeated;
     }
-    
+
     /**
-    * If possible, return next time or start, or return -1, if impossible.
-    */
+     * If possible, return next time or start, or return -1, if impossible.
+     */
     public Date nextTimeAfter(Date current) {
         if (!active) return null;
         if (!repeated) {
@@ -153,15 +154,15 @@ public class Task implements Cloneable {
         Date next = new Date(start.getTime());
         do {
             next.setTime(next.getTime() + interval*1000);
-        } while (next.before(current)); 
-        if (current.equals(next)) next.setTime(next.getTime() + interval*1000); 
+        } while (next.before(current));
+        if (current.equals(next)) next.setTime(next.getTime() + interval*1000);
         if (next.after(end)) return null;
         return next;
     }
-    
+
     /*
-    * Redefining of method equals().
-    */
+     * Redefining of method equals().
+     */
     @Override
     public boolean equals(Object otherObject) {
         if(this == otherObject) return true;
@@ -185,8 +186,8 @@ public class Task implements Cloneable {
     }
 
     /*
-    * Redefining of method hashCode().
-    */
+     * Redefining of method hashCode().
+     */
     @Override
     public int hashCode() {
         final int prime = 1113;
@@ -205,8 +206,8 @@ public class Task implements Cloneable {
     }
 
     /*
-    * Redefining of method toString().
-    */
+     * Redefining of method toString().
+     */
     @Override
     public String toString() {
         StringBuffer strbuf = new StringBuffer("Task{ title: ");
@@ -228,11 +229,11 @@ public class Task implements Cloneable {
     }
 
     /*
-    * Redefining of method clone().
-    */
+     * Redefining of method clone().
+     */
     @Override
-    public Task clone() throws CloneNotSupportedException {  
-        return (Task)super.clone(); 
+    public Task clone() throws CloneNotSupportedException {
+        return (Task)super.clone();
     }
 
 }

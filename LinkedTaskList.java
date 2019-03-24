@@ -1,11 +1,9 @@
-package ua.sumdu.j2se.plachkovskyy.tasks;
-
-import ua.sumdu.j2se.plachkovskyy.tasks.exceptions.*;
+import exceptions.*;
 import java.util.Iterator;
 
 /**
-* Class LinkedTaskList of the tasks list.
-*/
+ * Class LinkedTaskList of the tasks list.
+ */
 public class LinkedTaskList extends TaskList {
 
     private int length;
@@ -13,8 +11,8 @@ public class LinkedTaskList extends TaskList {
     private Node lastNode;
 
     /**
-    * Constructor of task-list.
-    */
+     * Constructor of task-list.
+     */
     public LinkedTaskList() {
         firstNode = new Node();
         lastNode  = new Node();
@@ -22,100 +20,100 @@ public class LinkedTaskList extends TaskList {
     }
 
     /**
-    * The cell of the list - internal class.
-    */
+     * The cell of the list - internal class.
+     */
     public class Node implements Cloneable {
         private Node previous;
         private Task task;
         private Node next;
-    
+
         /**
-        * Move the pointer to the next node.
-        */
+         * Move the pointer to the next node.
+         */
         public Node getNext() {
             return next;
         }
-    
+
         /**
-        * Move the pointer to the previous node.
-        */
+         * Move the pointer to the previous node.
+         */
         public Node getPrevious() {
             return previous;
         }
-    
+
         /**
-        * Set content of the next node.
-        */
+         * Set content of the next node.
+         */
         public void setNext(Node node) {
             next = node;
         }
-    
+
         /**
-        * Set content of the previous node.
-        */
+         * Set content of the previous node.
+         */
         public void setPrevious(Node node) {
             previous = node;
         }
-    
+
         /**
-        * Checkin if next exists.
-        */
+         * Checkin if next exists.
+         */
         public boolean hasNext() {
             return (next.getContent() != null);
         }
-    
+
         /**
-        * Checkin if previous exists.
-        */
+         * Checkin if previous exists.
+         */
         public boolean hasPrevious() {
             return (previous.getContent() != null);
         }
-        
+
         /**
-        * Set content (Task) to the current node.
-        */
-            public void setContent(Task task) {
-                this.task = task;
-            }
-        
+         * Set content (Task) to the current node.
+         */
+        public void setContent(Task task) {
+            this.task = task;
+        }
+
         /**
-        * Get content (Task) of the current node.
-        */
+         * Get content (Task) of the current node.
+         */
         public Task getContent() {
             return task;
         }
-        
+
         /**
-        * Clone of Node.
-        */
+         * Clone of Node.
+         */
         @Override
-        public Node clone() throws CloneNotSupportedException {  
-            return (Node)super.clone(); 
+        public Node clone() throws CloneNotSupportedException {
+            return (Node)super.clone();
         }
-        
+
     }   // ************* End of internal classs Node ***************************
-    
+
     /**
      * Add element to the end of List.
      */
     @Override
     public void add(Task task) {
-       if (task == null) {
+        if (task == null) {
             throw new NullPointerException("The task can not be null!");
         }
-       if (length == 0) {
+        if (length == 0) {
             firstNode.setContent(task);
-            firstNode.setNext(lastNode); 
-       } else {
+            firstNode.setNext(lastNode);
+        } else {
             Node previous = lastNode;
             previous.setContent(task);
             lastNode = new Node();
             lastNode.setPrevious(previous);
             previous.setNext(lastNode);
-       }
-       length++;
+        }
+        length++;
     }
-    
+
     /**
      * Get length of the List.
      */
@@ -123,12 +121,12 @@ public class LinkedTaskList extends TaskList {
     public int size() {
         return length;
     }
-    
+
     /**
      * Get content of the element by index.
      */
     @Override
-    public Task getTask(int index) {     
+    public Task getTask(int index) {
         if (index > length || length < 0) {
             return null;
         }
@@ -139,14 +137,14 @@ public class LinkedTaskList extends TaskList {
         }
         return current.getContent();
     }
-    
+
     /**
      * Remove element from List.
      */
     @Override
     public boolean remove(Task task) {
-        if (task == null) { 
-            throw new NullPointerException("The task can not be null!"); 
+        if (task == null) {
+            throw new NullPointerException("The task can not be null!");
         }
 
         Node previous = firstNode;
@@ -162,10 +160,10 @@ public class LinkedTaskList extends TaskList {
                 } else if (current == lastNode) {
                     lastNode.setPrevious(lastNode.getPrevious());
                     lastNode.setNext(null);
-                } else { 
+                } else {
                     previous.setNext(current.getNext());
                     current.setPrevious(previous);
-                }           
+                }
                 length--;
                 return true;
             }
@@ -174,15 +172,15 @@ public class LinkedTaskList extends TaskList {
         }
         return false;
     }
-    
+
     /**
-    * Create TaskList type of List.
-    */
+     * Create TaskList type of List.
+     */
     @Override
     public TaskList  createList() {
         return new LinkedTaskList();
     }
-    
+
     /**
      * Implementation of the iterator().
      */
@@ -190,12 +188,12 @@ public class LinkedTaskList extends TaskList {
     public Iterator<Task> iterator() {
         return new Iterator<Task>() {
             int counter = 0;
-            Node current = firstNode; 
+            Node current = firstNode;
             Task task;
 
             @Override
             public void remove() {
-                if (counter == 0) 
+                if (counter == 0)
                     throw new IllegalStateException("The next method has not yet been called!");
                 LinkedTaskList.this.remove(task);
                 counter--;
@@ -215,10 +213,10 @@ public class LinkedTaskList extends TaskList {
             }
         };
     }
-    
+
     /**
-    * Redefining of equals().
-    */
+     * Redefining of equals().
+     */
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof LinkedTaskList)) return false;
@@ -226,7 +224,7 @@ public class LinkedTaskList extends TaskList {
         if (this == tasks)
             return true;
         if (this == null || tasks == null)
-            return false;      
+            return false;
         if (length != tasks.size()) return false;
         Node current = firstNode;
         Node current2 = tasks.firstNode;
@@ -238,22 +236,22 @@ public class LinkedTaskList extends TaskList {
         }
         return true;
     }
-    
+
     /**
-    * Redefining of haskCode().
-    */
+     * Redefining of haskCode().
+     */
     @Override
     public int hashCode() {
-    final int prime = 31;
-    int result = 0;
-    for (Task task : this)
-        result = result + prime + (task == null ? 0 : task.hashCode());
-    return result;
+        final int prime = 31;
+        int result = 0;
+        for (Task task : this)
+            result = result + prime + (task == null ? 0 : task.hashCode());
+        return result;
     }
-    
+
     /**
-    * Redefining of toString().
-    */
+     * Redefining of toString().
+     */
     @Override
     public String toString() {
         Node current = firstNode;
@@ -264,7 +262,7 @@ public class LinkedTaskList extends TaskList {
         }
         return output;
     }
-    
+
     /**
      * Redefining of the method clone() of the class Object.
      * Aplying deep cloning.

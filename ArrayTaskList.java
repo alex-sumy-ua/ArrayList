@@ -1,11 +1,9 @@
-package ua.sumdu.j2se.plachkovskyy.tasks;
-
-import ua.sumdu.j2se.plachkovskyy.tasks.exceptions.*;
+import exceptions.*;
 import java.util.Iterator;
 
 /**
-* Class ArrayTaskList for the list of tasks.
-*/
+ * Class ArrayTaskList for the list of tasks.
+ */
 public class ArrayTaskList extends TaskList {
 
     private Task[]  taskList;           // list of tasks
@@ -13,17 +11,17 @@ public class ArrayTaskList extends TaskList {
     private int     realSize    = 0;    // array real size
 
     /**
-    *   Constructor of empty list.
-    */
+     *   Constructor of empty list.
+     */
     public ArrayTaskList () {
         taskList    =   new Task[listLength];
         listLength  =   taskList.length;
         realSize    =   size();
     }
-    
+
     /**
-    * Adding new element (task) into list.
-    */
+     * Adding new element (task) into list.
+     */
     @Override
     public void add(Task task) throws MyException {
         if (task == null)
@@ -39,12 +37,12 @@ public class ArrayTaskList extends TaskList {
             }
         }
     }
-    
+
     /**
-    * Removes only first appropriate element from list.
-    * Returns true if element was found and removed,
-    * returns false if element was not found.
-    */
+     * Removes only first appropriate element from list.
+     * Returns true if element was found and removed,
+     * returns false if element was not found.
+     */
     @Override
     public boolean remove(Task task) {
         boolean done = false;
@@ -62,7 +60,7 @@ public class ArrayTaskList extends TaskList {
         }
         // Optimization of the size of array. Important: minimum size is 10
         if (((realSize / listLength) < 0.5) &&
-            ((listLength * 0.75) > 10)) {
+                ((listLength * 0.75) > 10)) {
             listLength = (int) (listLength * 0.75);
             Task[]  tempList = new Task[listLength];
             System.arraycopy(taskList, 0, tempList, 0, realSize);
@@ -70,27 +68,27 @@ public class ArrayTaskList extends TaskList {
         }
         return done;
     }
-    
+
     /**
-    * Returns tasks total.
-    */
+     * Returns tasks total.
+     */
     @Override
     public int size() {
         return realSize;
     }
-    
+
     /**
-    * Returns Task by index.
-    */
+     * Returns Task by index.
+     */
     @Override
     public Task getTask(int index) {
         if ((index >= 0) && (index < listLength)) return taskList[index];
         else return null;
     }
-    
+
     /**
-    * Create TaskList of both types.
-    */
+     * Create TaskList of both types.
+     */
     @Override
     public TaskList createList() {
         return new ArrayTaskList();
@@ -101,7 +99,7 @@ public class ArrayTaskList extends TaskList {
      */
     @Override
     public Iterator<Task> iterator() {
-    
+
         Iterator<Task> it = new Iterator<Task>() {
             private int currentIndex = -1;
             Task task;
@@ -124,7 +122,7 @@ public class ArrayTaskList extends TaskList {
             }
         };
         return it;
-    }    
+    }
 
     /**
      * Redefining of the method toString() of the class Object.
@@ -141,10 +139,10 @@ public class ArrayTaskList extends TaskList {
     }
 
     /*
-    * Redefining of method equals().
-    */
+     * Redefining of method equals().
+     */
     @Override
-     public boolean equals(Object otherObject) {
+    public boolean equals(Object otherObject) {
         if(this == otherObject) return true;
         if(otherObject == null || this == null) return false;
         if(getClass() != otherObject.getClass()) return false;
@@ -156,8 +154,8 @@ public class ArrayTaskList extends TaskList {
     }
 
     /*
-    * Redefining of method hashCode().
-    */
+     * Redefining of method hashCode().
+     */
     @Override
     public int hashCode() {
         final int prime = 1113;
@@ -166,12 +164,12 @@ public class ArrayTaskList extends TaskList {
             result += prime * (task == null ? 0 : task.hashCode());
         return result;
     }
-    
+
     /**
      * Redefining of the method clone() of the class Object.
      * Aplying deep cloning.
      */
-     @Override
+    @Override
     public ArrayTaskList clone() throws CloneNotSupportedException {
         ArrayTaskList clone = (ArrayTaskList)super.clone();
         clone.taskList = this.taskList.clone();
@@ -180,5 +178,5 @@ public class ArrayTaskList extends TaskList {
                 clone.taskList[i] = this.taskList[i].clone();
         return clone;
     }
-    
+
 }

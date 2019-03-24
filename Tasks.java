@@ -1,6 +1,6 @@
-package ua.sumdu.j2se.plachkovskyy.tasks;
+//package ua.sumdu.j2se.plachkovskyy.tasks;
 
-import ua.sumdu.j2se.plachkovskyy.tasks.exceptions.*;
+import /*ua.sumdu.j2se.plachkovskyy.tasks.*/exceptions.*;
 import java.util.*;
 
 /**
@@ -18,12 +18,13 @@ public class Tasks {
             if (task.isActive() &&
                 task.nextTimeAfter(start) != null &&
                 task.nextTimeAfter(start).after(start) &&
-                task.nextTimeAfter(start).compareTo(end) <= 0)
-                { collection.add(task); }
+                task.nextTimeAfter(start).compareTo(end) <= 0) {
+                collection.add(task);
+            }
         }
         return collection;
     }
-    
+
     public static SortedMap<Date, Set<Task>> calendar(Iterable<Task> tasks, Date start, Date end) {
         SortedMap<Date, Set<Task>> sortedMap = new TreeMap<Date, Set<Task>>();
         for (Task task: tasks) {                                // iterator in tasks by task
@@ -41,7 +42,7 @@ public class Tasks {
             }
 
         }
-        return sortedMap;        
+        return sortedMap;
     }
 
 }
