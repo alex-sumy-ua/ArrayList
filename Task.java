@@ -30,13 +30,13 @@ public class Task implements Cloneable {
 	* Constructor2 of the Task with parameters.
 	*/
     public  Task(String title, Date start, Date end, int interval)
-            throws Exception {
+            throws MyException {
         if (start == null || end == null)
-            throw new Exception("Start and End cannot be null!");
+            throw new MyException("Start and End cannot be null!");
         if (interval <= 0)
-            throw new Exception("Interval must be more then zero!");
+            throw new MyException("Interval must be more then zero!");
         if (end.before(start))
-            throw new Exception("End-time cannot be less then start-time!");
+            throw new MyException("End-time cannot be less then start-time!");
         this.title      =   title;
 		this.start      =   start;
         this.end        =   end;
