@@ -114,6 +114,24 @@ public class TaskIO {
         }
     }
 
+    /**
+     * Converter int interval value to String.
+     * @param interval
+     * @return String
+     */
+    public static String intToStringInterval (int interval) {
+        return null;
+    }
+
+    /**
+     * Converter String interval to int value.
+     * @param interval
+     * @return String
+     */
+    public static int stringToIntInterval (String interval) {
+        return 0;
+    }
+
 //******************************************************************************
 
     /**
