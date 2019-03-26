@@ -105,12 +105,12 @@ public class TaskIO {
      * @param file
      */
     public static void readBinary(TaskList tasks, File file)
-            throws IOException {
-        FileOutputStream fileOutputStream = new FileOutputStream(file);
+            throws IOException, MyException {
+        FileInputStream fileInputStream = new FileInputStream(file);
         try {
-            write(tasks, fileOutputStream);
+            read(tasks, fileInputStream);
         } finally {
-            fileOutputStream.close();
+            fileInputStream.close();
         }
     }
 

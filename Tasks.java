@@ -11,6 +11,7 @@ public class Tasks {
     /**
      * Returns tasks list, which will be planned at least once
      * after "from" and not later than "to".
+     * Any collection for storing tasks.
      */
     public static Iterable<Task> incoming(Iterable<Task> tasks, Date start, Date end) throws MyException {
         ArrayTaskList collection = new ArrayTaskList();
@@ -25,6 +26,9 @@ public class Tasks {
         return collection;
     }
 
+    /**
+     * Task calendar for a given period.
+     */
     public static SortedMap<Date, Set<Task>> calendar(Iterable<Task> tasks, Date start, Date end) {
         SortedMap<Date, Set<Task>> sortedMap = new TreeMap<Date, Set<Task>>();
         for (Task task: tasks) {                                // iterator in tasks by task
